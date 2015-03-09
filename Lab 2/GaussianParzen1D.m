@@ -1,17 +1,16 @@
-function [ pd ] = GaussianParzen1D( data, h, sigma, range )
-%Gets a 1D Parzen Window estimation using a Gaussian Distribution
-pd = zeros(length(range));
-n = length(data);
-gf = makedist('Normal', 'mu', 0, 'sigma', sigma);
-
-for j=1:length(range)
-    for i=1:n
-        xi = data(i);
-        pt = (range(j) - xi)/h;
-        pdfval = pdf(gf, pt)/h; %this zero for some reason
-        pd(j) = pd(j) + pdfval;
+function [ pd ] = GaussianParzen1D( trainingData, range, h, sigma )
+%UNTITLED5 Summary of this function goes here
+%   Detailed explanation goes here
+len_r = length(range);
+len_t = length(trainingData);
+pd = zeros(1,len_r);
+for i = 1:len_r
+    sum1 = 0.0;
+    for j = 1:len_t
+        sum1 = sum1 + (1/(sigma *sqrt(2*pi)))*exp(-0.5/sigma^2*((range(i)-trainingData(j))...
+            /h)^2)/h;
     end
-    pd(j) = pd(j)/n;
+    pd(i) = sum1/len_t;
 end
 end
 

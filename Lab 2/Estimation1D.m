@@ -27,7 +27,11 @@ uniform_dist_b = makedist('Uniform', 'lower', min(b), 'upper', max(b));
 
 s1 = 0.1;
 s2 = 0.4;
-parzen_a_1 = GaussianParzen1D(a, .1, s1, xrange)
+window_size = 10;
+parzen_a_1 = GaussianParzen1D(a, xrange, window_size, s1);
+parzen_b_1 = GaussianParzen1D(b, xrange, window_size, s1);
+parzen_a_2 = GaussianParzen1D(a, xrange, window_size, s2);
+parzen_b_2 = GaussianParzen1D(b, xrange, window_size, s2);
 
 figure(1)
 plot(xrange, pdf(true_a, xrange), xrange, pdf(true_b, xrange),...
@@ -49,6 +53,12 @@ legend('True a', 'True b', 'Uniform Estimate of a', 'Uniform Estimate of b')
 
 figure(4)
 plot(xrange, pdf(true_a, xrange), xrange, pdf(true_b, xrange),...
-    xrange, parzen_a_1);%, xrange, pdf(uniform_dist_b, xrange));
-title('Parzen Window Estimate: Sigma = 0.1, h = 1')
+    xrange, parzen_a_1, xrange, parzen_b_1);
+title('Parzen Window Estimate: Sigma = 0.1, h = 10')
+legend('True a', 'True b', 'Parzen Estimate of a', 'Parzen Estimate of b')
+
+figure(5)
+plot(xrange, pdf(true_a, xrange), xrange, pdf(true_b, xrange),...
+    xrange, parzen_a_2, xrange, parzen_b_2);
+title('Parzen Window Estimate: Sigma = 0.4, h = 10')
 legend('True a', 'True b', 'Parzen Estimate of a', 'Parzen Estimate of b')
