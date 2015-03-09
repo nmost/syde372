@@ -25,6 +25,10 @@ exponential_dist_b = makedist('Exponential', 'mu', ml_mu_b);
 uniform_dist_a = makedist('Uniform', 'lower', min(a), 'upper', max(a));
 uniform_dist_b = makedist('Uniform', 'lower', min(b), 'upper', max(b));
 
+s1 = 0.1;
+s2 = 0.4;
+parzen_a_1 = GaussianParzen1D(a, .1, s1, xrange)
+
 figure(1)
 plot(xrange, pdf(true_a, xrange), xrange, pdf(true_b, xrange),...
     xrange,pdf(gaussian_dist_a,xrange), xrange ,pdf(gaussian_dist_b, xrange));
@@ -42,3 +46,9 @@ plot(xrange, pdf(true_a, xrange), xrange, pdf(true_b, xrange),...
     xrange, pdf(uniform_dist_a, xrange), xrange, pdf(uniform_dist_b, xrange));
 title('Parametric Estimate: Uniform Distribution')
 legend('True a', 'True b', 'Uniform Estimate of a', 'Uniform Estimate of b')
+
+figure(4)
+plot(xrange, pdf(true_a, xrange), xrange, pdf(true_b, xrange),...
+    xrange, parzen_a_1);%, xrange, pdf(uniform_dist_b, xrange));
+title('Parzen Window Estimate: Sigma = 0.1, h = 1')
+legend('True a', 'True b', 'Parzen Estimate of a', 'Parzen Estimate of b')
