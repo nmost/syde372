@@ -27,8 +27,8 @@ uniform_dist_b = makedist('Uniform', 'lower', min(b), 'upper', max(b));
 
 s1 = 0.1;
 s2 = 0.4;
-window_size = 10;
-parzen_a_1 = GaussianParzen1D(a, xrange, window_size, s1);
+window_size = 10;1
+parzen_a_1 = GaussianParzen1D(a, xrange, window_size, s);
 parzen_b_1 = GaussianParzen1D(b, xrange, window_size, s1);
 parzen_a_2 = GaussianParzen1D(a, xrange, window_size, s2);
 parzen_b_2 = GaussianParzen1D(b, xrange, window_size, s2);
