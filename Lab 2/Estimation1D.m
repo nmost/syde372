@@ -11,15 +11,17 @@ true_b = makedist('Exponential', 'mu', 1); %mean of exponential is 1/lambda, lam
 ml_mu_a = sum(a)/length(a);
 ml_sigma_a = sum(arrayfun(@squareddistance, a, ones(size(a))*ml_mu_a))... 
     /length(a);
+
 ml_mu_b = (sum(b)/length(b));
 ml_sigma_b = sum(arrayfun(@squareddistance, b, ones(size(b))*ml_mu_b))...
     /length(b);
 
-
 gaussian_dist_a = makedist('Normal', 'mu', ml_mu_a, 'sigma', ml_sigma_a);
 gaussian_dist_b = makedist('Normal', 'mu', ml_mu_b, 'sigma', ml_sigma_b);
+
 exponential_dist_a = makedist('Exponential', 'mu', ml_mu_a);
 exponential_dist_b = makedist('Exponential', 'mu', ml_mu_b);
+
 %we want the minimum gap that holds all the data, which is just the min to
 %the max!
 uniform_dist_a = makedist('Uniform', 'lower', min(a), 'upper', max(a));
@@ -27,11 +29,10 @@ uniform_dist_b = makedist('Uniform', 'lower', min(b), 'upper', max(b));
 
 s1 = 0.1;
 s2 = 0.4;
-window_size = 10;1
-parzen_a_1 = GaussianParzen1D(a, xrange, window_size, s);
-parzen_b_1 = GaussianParzen1D(b, xrange, window_size, s1);
-parzen_a_2 = GaussianParzen1D(a, xrange, window_size, s2);
-parzen_b_2 = GaussianParzen1D(b, xrange, window_size, s2);
+parzen_a_1 = GaussianParzen1D(a, xrange, s1);
+parzen_b_1 = GaussianParzen1D(b, xrange, s1);
+parzen_a_2 = GaussianParzen1D(a, xrange, s2);
+parzen_b_2 = GaussianParzen1D(b, xrange, s2);
 
 figure(1)
 plot(xrange, pdf(true_a, xrange), xrange, pdf(true_b, xrange),...
