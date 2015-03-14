@@ -17,8 +17,8 @@ classDistances=[];
 
 
 while (~isempty(aPoints) && ~isempty(bPoints))
-    nba=-10;
-    nab=-10;
+    nba=-1;
+    nab=-1;
     correctA = zeros(200);
     correctB = zeros(200);
     
@@ -56,17 +56,19 @@ while (~isempty(aPoints) && ~isempty(bPoints))
            end
         end
     end
-    
+    %stores each 'good' discriminant in a row of G, like this:
+    % [Ax Ay Bx By nab nba]
     G(j, :) = [za zb nab nba];
     if (nab == 0)
         i = 1;
         while(correctB(i) > 0)
+            %remove every point that was correctly classified from the
+            %sample set (as per instructions)
+            %correctB contains indexes of correctly classified points.
+            %After each removal index shifts down one, hence the -(i - 1)
             bPoints(correctB(i) - (i - 1),:)=[];
             i = i + 1;
         end
-        %aPoints(rowA,:)=[];
-        %disp('AYYY removing a');
-        %disp(size(aPoints));
     end
 
     if (nba == 0)
@@ -75,9 +77,6 @@ while (~isempty(aPoints) && ~isempty(bPoints))
             aPoints(correctA(i) - (i - 1),:)=[];
             i = i + 1;
         end
-        %bPoints(rowB,:)=[];
-        %disp('AYYY removing b');
-        %disp(size(bPoints));
     end
 
     j = j + 1;
@@ -86,6 +85,8 @@ while (~isempty(aPoints) && ~isempty(bPoints))
     disp('___')
 
 end
+
+
 
 
 
