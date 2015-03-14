@@ -9,7 +9,7 @@ yrange = 0:0.1:500;
 aPoints = a;
 bPoints = b;
 j = 1;
-G = zeros(200, 4);
+G = zeros(200, 6);
 naBm = zeros(200);
 nbAm = zeros(200);
 
@@ -57,7 +57,7 @@ while (~isempty(aPoints) && ~isempty(bPoints))
         end
     end
     
-    G(j, :) = [za zb];
+    G(j, :) = [za zb nab nba];
     if (nab == 0)
         i = 1;
         while(correctB(i) > 0)
@@ -86,4 +86,6 @@ while (~isempty(aPoints) && ~isempty(bPoints))
     disp('___')
 
 end
+
+
 

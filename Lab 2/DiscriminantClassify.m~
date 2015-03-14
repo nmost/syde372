@@ -1,0 +1,5 @@
+function [ class] = DiscriminantClassify(x, G)
+    for j=1:size(G, 1)
+        MEDDecisionMetric(aPoints(i,:),za) < (MEDDecisionMetric(aPoints(i,:),zb))
+    end
+end
