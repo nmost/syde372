@@ -12,7 +12,7 @@ function [ pd ] = GaussianParzen2D( trainingdata, range, E )
             numer = exp(expon);
             sum1 = numer/denom;
         end
-        pd(i) = sum1/len_t; %ALWAYS GIVES 1 WTF
+        pd(i) = sum1/len_t %ALWAYS GIVES 1 WTF
     end
 end
 
