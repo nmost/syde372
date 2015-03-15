@@ -6,7 +6,7 @@ load('lab2_2.mat')
 
 xrange = 0:0.1:500;
 yrange = 0:0.1:500;
-%{
+
 ml_mu_al = sum(al)/length(al);
 ml_sigma_al = 0.0;
 for i = 1:length(al)
@@ -43,19 +43,19 @@ for i = 1:length(xy)
 end
 
 decisionmap = reshape(map, size(plotX));
-contour(decisionmap)
+contour(decisionmap);
 hold on;
-plot(al(:,1),al(:,2),'.')
+plot(al(:,1),al(:,2),'r.');
 hold on;
-plot(bl(:,1),bl(:,2),'.')
+plot(bl(:,1),bl(:,2),'b.');
 hold on;
-plot(cl(:,1),cl(:,2),'.')
+plot(cl(:,1),cl(:,2),'g.');
 %}
 %[parzenPDF_al, pX_al, pY_al] = parzen2d(al, [1 0 0 500 500]);
 
-cov = [400, 0; 0, 400]; %sigma
-[range_x, range_y] = meshgrid(0:10:500);
-coord_vec = [range_x(:), range_y(:)];
+%cov = [400, 0; 0, 400]; %sigma
+%[range_x, range_y] = meshgrid(0:10:500);
+%coord_vec = [range_x(:), range_y(:)];
 
-parzenA = GaussianParzen2D(al, coord_vec, cov);
+%parzenA = GaussianParzen2D(al, coord_vec, cov);
 

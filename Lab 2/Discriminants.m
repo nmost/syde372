@@ -9,7 +9,7 @@ yrange = 0:0.1:500;
 aPoints = a;
 bPoints = b;
 j = 1;
-G = zeros(200, 6);
+G = zeros(12, 6);
 naBm = zeros(200);
 nbAm = zeros(200);
 
@@ -92,13 +92,51 @@ while (~isempty(aPoints) && ~isempty(bPoints))
     end
 
     j = j + 1;
-    disp(length(aPoints))
-    disp(length(bPoints))
-    disp('___')
 
 end
 
+[plotX, plotY] = meshgrid(0:1:500);
 
+xy = [plotX(:) plotY(:)];
+
+map = zeros(length(xy), 1);
+
+%Iterate through every point.
+for i = 1:length(xy)
+    %Iterate through every G (if necessary)
+     for x = 1:j;
+         %If we set a value for this point, we can move to the next one.
+          if (map(i) ~= 0)
+              break
+          end
+           
+          %Classify this point based off of the first descriminant.
+           if(MEDDecisionMetric(i,G(x,1:2))) < (MEDDecisionMetric(i,G(x,3:4)))
+               %We have classified as A.
+               %Make sure NBa is zero, otherwise move to the next discriminant 
+                if(G(x,6) == 0)
+                    %This point is correctly classified as A
+                    map(i) = 1;
+                end
+           else
+               %We have classified as B using this discriminant.
+               %Make sure NaB is zero, otherwise move to the next discriminant 
+              if(G(x,5) == 0)
+                    %This point is correctly classified as B
+                    map(i) = 2;
+              end
+           end
+          
+     end
+end
+
+
+decisionmap = reshape(map, size(plotX));
+contour(decisionmap);
+hold on;
+plot(a(:,1),a(:,2),'r.');
+hold on;
+plot(b(:,1),b(:,2),'b.');
 
 
 
