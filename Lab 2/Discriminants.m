@@ -69,26 +69,32 @@ while (~isempty(aPoints) && ~isempty(bPoints))
     G(j, :) = [za zb nab nba];
     if (nab == 0)
         i = 1;
-        %correctB was initialized as zeroes, loop until we reach unset
-        %(zero) values
-        while(correctB(i) > 0)
+        %Remove all the zero rows and columns
+        correctB( ~any(correctB,2), : ) = [];  %rows
+        correctB( :, ~any(correctB,1) ) = [];  %columns
+        for i = 1:size(correctB)
             %remove every point that was correctly classified from the
             %sample set (as per instructions)
             %correctB contains indexes of correctly classified points.
-            %After each removal index shifts down one, hence the -(i - 1)
-            %IE. we are looping through an array and removing items from it
-            %at the same time
-            bPoints(correctB(i) - (i - 1),:)=[];
-            i = i + 1;
+            %REPLACE the row with a zero row INSTEAD of deleting, otherwise
+            %the indexes we saved will be wrong!
+            bPoints(correctB(i),:)=[0,0];
         end
+            %NOW we can delete all those zero rows.
+            bPoints( ~any(bPoints,2), : ) = []; 
+
     end
 
     if (nba == 0)
-        i = 1;
-        while(correctA(i) > 0)
-            aPoints(correctA(i) - (i - 1),:)=[];
-            i = i + 1;
+             i = 1;
+        %Remove all the zero rows and columns
+        correctA( ~any(correctA,2), : ) = [];  %rows
+        correctA( :, ~any(correctA,1) ) = [];  %columns
+        for i = 1:size(correctA)
+            aPoints(correctA(i),:)=[0,0];
         end
+            %delete all those zero rows.
+            aPoints( ~any(aPoints,2), : ) = [];
     end
 
     j = j + 1;
