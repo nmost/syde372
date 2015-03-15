@@ -111,7 +111,7 @@ for i = 1:length(xy)
           end
            
           %Classify this point based off of the first descriminant.
-           if(MEDDecisionMetric(i,G(x,1:2))) < (MEDDecisionMetric(i,G(x,3:4)))
+           if(MEDDecisionMetric(xy(i,:),G(x,1:2))) < (MEDDecisionMetric(xy(i,:),G(x,3:4)))
                %We have classified as A.
                %Make sure NBa is zero, otherwise move to the next discriminant 
                 if(G(x,6) == 0)
