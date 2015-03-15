@@ -9,7 +9,7 @@ yrange = 0:0.1:500;
 aPoints = a;
 bPoints = b;
 j = 1;
-G = zeros(12, 6);
+G = zeros(200, 6);
 naBm = zeros(200);
 nbAm = zeros(200);
 
@@ -101,6 +101,10 @@ while (~isempty(aPoints) && ~isempty(bPoints))
 
 end
 
+%Delete our zero rows on G
+G( ~any(G,2), : ) = [];  %rows
+
+
 [plotX, plotY] = meshgrid(0:1:500);
 
 xy = [plotX(:) plotY(:)];
@@ -111,11 +115,6 @@ map = zeros(length(xy), 1);
 for i = 1:length(xy)
     %Iterate through every G (if necessary)
      for x = 1:j;
-         %If we set a value for this point, we can move to the next one.
-          if (map(i) ~= 0)
-              break
-          end
-           
           %Classify this point based off of the first descriminant.
            if(MEDDecisionMetric(xy(i,:),G(x,1:2))) < (MEDDecisionMetric(xy(i,:),G(x,3:4)))
                %We have classified as A.
@@ -132,6 +131,11 @@ for i = 1:length(xy)
                     map(i) = 2;
               end
            end
+          %If we set a value for this point, we can move to the next one.
+          if (map(i) ~= 0)
+              break
+          end
+           
           
      end
 end
