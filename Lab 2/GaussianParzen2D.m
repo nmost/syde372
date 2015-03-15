@@ -1,7 +1,7 @@
 function [ pd ] = GaussianParzen2D( trainingdata, range, E )
     len_r = length(range);
     len_t = length(trainingdata);
-    pd = ones(len_r);
+    pd = ones(len_r,1);
     denom = sqrt(2*pi)*sqrt(det(E));
 
     for i = 1:len_r
@@ -12,7 +12,7 @@ function [ pd ] = GaussianParzen2D( trainingdata, range, E )
             numer = exp(expon);
             sum1 = numer/denom;
         end
-        pd(i) = sum1/len_t %ALWAYS GIVES 1 WTF
+        pd(i) = sum1/len_t;
     end
 end
 

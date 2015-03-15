@@ -50,12 +50,27 @@ hold on;
 plot(bl(:,1),bl(:,2),'b.');
 hold on;
 plot(cl(:,1),cl(:,2),'g.');
-%}
-%[parzenPDF_al, pX_al, pY_al] = parzen2d(al, [1 0 0 500 500]);
 
-%cov = [400, 0; 0, 400]; %sigma
-%[range_x, range_y] = meshgrid(0:10:500);
-%coord_vec = [range_x(:), range_y(:)];
+cov = [400, 0; 0, 400]; %sigma
+[range_x, range_y] = meshgrid(0:1:500);
+coord_vec = [range_x(:), range_y(:)];
 
-%parzenA = GaussianParzen2D(al, coord_vec, cov);
+parzenA = GaussianParzen2D(al, coord_vec, cov);
+parzenB = GaussianParzen2D(bl, coord_vec, cov);
+parzenC = GaussianParzen2D(cl, coord_vec, cov);
 
+
+parzmap = zeros(length(coord_vec), 1);
+for i = 1:length(coord_vec)
+    [M, I] = max([parzenA(i); parzenB(i); parzenC(i)]);
+    parzmap(i) = I;
+end
+
+parzdecisionmap = reshape(parzmap, size(range_x));
+contour(parzdecisionmap)
+hold on;
+plot(al(:,1),al(:,2),'.', 'MarkerFaceColor', 'b')
+hold on;
+plot(bl(:,1),bl(:,2),'.', 'MarkerFaceColor','r')
+hold on;
+plot(cl(:,1),cl(:,2),'.', 'MarkerFaceColor','g')
