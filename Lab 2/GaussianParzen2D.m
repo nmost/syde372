@@ -10,7 +10,7 @@ function [ pd ] = GaussianParzen2D( trainingdata, range, E )
             diff = range(i, :) - trainingdata(j, :);
             expon = diff / E * diff' / -2;
             numer = exp(expon);
-            sum1 = numer/denom;
+            sum1 = sum1 + numer/denom;
         end
         pd(i) = sum1/len_t;
     end
