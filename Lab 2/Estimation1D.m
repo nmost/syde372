@@ -55,11 +55,11 @@ legend('True a', 'True b', 'Uniform Estimate of a', 'Uniform Estimate of b')
 figure(4)
 plot(xrange, pdf(true_a, xrange), xrange, pdf(true_b, xrange),...
     xrange, parzen_a_1, xrange, parzen_b_1);
-title('Parzen Window Estimate: Sigma = 0.1, h = 10')
+title('Parzen Window Estimate: Sigma = 0.1')
 legend('True a', 'True b', 'Parzen Estimate of a', 'Parzen Estimate of b')
 
 figure(5)
 plot(xrange, pdf(true_a, xrange), xrange, pdf(true_b, xrange),...
     xrange, parzen_a_2, xrange, parzen_b_2);
-title('Parzen Window Estimate: Sigma = 0.4, h = 10')
+title('Parzen Window Estimate: Sigma = 0.4')
 legend('True a', 'True b', 'Parzen Estimate of a', 'Parzen Estimate of b')
