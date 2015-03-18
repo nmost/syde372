@@ -115,6 +115,7 @@ map = zeros(length(xy), 1);
 for i = 1:length(xy)
     %Iterate through every G (if necessary)
      for x = 1:j;
+         %{
           %Classify this point based off of the first descriminant.
            if(MEDDecisionMetric(xy(i,:),G(x,1:2))) < (MEDDecisionMetric(xy(i,:),G(x,3:4)))
                %We have classified as A.
@@ -136,7 +137,8 @@ for i = 1:length(xy)
               break
           end
            
-          
+          %}
+         map(i) = DiscriminantClassify(xy(i, :), G);
      end
 end
 
