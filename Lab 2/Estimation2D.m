@@ -3,7 +3,7 @@ close all;
 
 %1D Model Estimation
 load('lab2_2.mat')
-%{
+
 xrange = 0:0.1:500;
 yrange = 0:0.1:500;
 
@@ -43,14 +43,15 @@ for i = 1:length(xy)
 end
 
 decisionmap = reshape(map, size(plotX));
+figure(1)
 contour(decisionmap);
 hold on;
 plot(al(:,1),al(:,2),'r.');
 hold on;
-plot(bl(:,1),bl(:,2),'b.');
+plot(bl(:,1),bl(:,2),'g.');
 hold on;
-plot(cl(:,1),cl(:,2),'g.');
-%}
+plot(cl(:,1),cl(:,2),'b.');
+
 cov = [400, 0; 0, 400]; %sigma
 [range_x, range_y] = meshgrid(0:1:500);
 coord_vec = [range_x(:) range_y(:)];
@@ -59,15 +60,6 @@ parzenA = GaussianParzen2D(al, coord_vec, cov);
 parzenB = GaussianParzen2D(bl, coord_vec, cov);
 parzenC = GaussianParzen2D(cl, coord_vec, cov);
 
-parzenATrans = reshape(parzenA, size(range_x));
-parzenBTrans = reshape(parzenB, size(range_x));
-parzenCTrans = reshape(parzenC, size(range_x));
-figure(1)
-surf(range_x, range_y, parzenATrans)
-figure(2)
-surf(range_x, range_y, parzenBTrans)
-figure(3)
-surf(range_x, range_y, parzenCTrans)
 
 parzmap = zeros(length(coord_vec), 1);
 for i = 1:length(coord_vec)
@@ -75,12 +67,12 @@ for i = 1:length(coord_vec)
     parzmap(i) = I;
 end
 
-parzdecisionmap = reshape(parzmap, size(range_x))
-figure(4)
+parzdecisionmap = reshape(parzmap, size(range_x));
+figure(2)
 contour(parzdecisionmap)
 hold on;
-plot(al(:,1),al(:,2),'b.')
+plot(al(:,1),al(:,2),'r.')
 hold on;
-plot(bl(:,1),bl(:,2),'r.')
+plot(bl(:,1),bl(:,2),'g.')
 hold on;
-plot(cl(:,1),cl(:,2),'g.')
+plot(cl(:,1),cl(:,2),'b.')
