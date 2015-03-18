@@ -13,4 +13,5 @@ function [ class] = DiscriminantClassify(x, G)
             class = 2;
             break;
         end
+    end
 end
