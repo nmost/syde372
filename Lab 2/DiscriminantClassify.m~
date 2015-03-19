@@ -9,7 +9,7 @@ function [ class] = DiscriminantClassify(x, G)
             class = 1;
             break;
         %else if it classifies as class B and nab == 0
-        elseif (MEDDecisionMetric(x,G(j,1:2)) > MEDDecisionMetric(x, G(j, 3:4)) && G(j,5) == 0)
+        elseif (MEDDecisionMetric(x,G(j,1:2)) >= MEDDecisionMetric(x, G(j, 3:4)) && G(j,5) == 0)
             class = 2;
             break;
         end

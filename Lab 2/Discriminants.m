@@ -9,6 +9,7 @@ yrange = 0:0.1:500;
 aPoints = a;
 bPoints = b;
 j = 1;
+maxj = 17;
 G = zeros(200, 6);
 naBm = zeros(200);
 nbAm = zeros(200);
@@ -16,12 +17,14 @@ nbAm = zeros(200);
 classDistances=[];
 
 %loop until both sets of points are empty
-while (~isempty(aPoints) && ~isempty(bPoints))
+while ((~isempty(aPoints) || ~isempty(bPoints)))
     nba=-1;
     nab=-1;
     correctA = zeros(200);
     correctB = zeros(200);
-    
+    if(j==maxj)
+        break
+    end
     %loop until we find a random point that perfectly classifies either A
     %or B
     while (nba ~= 0 && nab ~= 0)
@@ -76,13 +79,13 @@ while (~isempty(aPoints) && ~isempty(bPoints))
             %remove every point that was correctly classified from the
             %sample set (as per instructions)
             %correctB contains indexes of correctly classified points.
+            
             %REPLACE the row with a zero row INSTEAD of deleting, otherwise
             %the indexes we saved will be wrong!
-            bPoints(correctB(i),:)=[0,0];
+            bPoints(correctB(i),:)=[0 0];
         end
             %NOW we can delete all those zero rows.
             bPoints( ~any(bPoints,2), : ) = []; 
-
     end
 
     if (nba == 0)
@@ -96,9 +99,7 @@ while (~isempty(aPoints) && ~isempty(bPoints))
             %delete all those zero rows.
             aPoints( ~any(aPoints,2), : ) = [];
     end
-
     j = j + 1;
-
 end
 
 %Delete our zero rows on G
@@ -114,8 +115,8 @@ map = zeros(length(xy), 1);
 %Iterate through every point.
 for i = 1:length(xy)
     %Iterate through every G (if necessary)
-     for x = 1:j;
-         %{
+      %{
+     for x = 1:j-1;
           %Classify this point based off of the first descriminant.
            if(MEDDecisionMetric(xy(i,:),G(x,1:2))) < (MEDDecisionMetric(xy(i,:),G(x,3:4)))
                %We have classified as A.
@@ -139,7 +140,6 @@ for i = 1:length(xy)
            
           %}
          map(i) = DiscriminantClassify(xy(i, :), G);
-     end
 end
 
 
@@ -150,5 +150,24 @@ plot(a(:,1),a(:,2),'r.');
 hold on;
 plot(b(:,1),b(:,2),'b.');
 
+numMA = 0;
+numMB = 0;
+
+for i=1:length(a)
+    class = DiscriminantClassify(a(i, :), G);
+    if (class == 2 || class == 0)
+        numMA = numMA + 1;
+    end
+end
+
+for i=1:length(b)
+    class = DiscriminantClassify(b(i, :), G);
+    if (class == 1 || class == 0)
+        numMB = numMB + 1;
+    end
+end
+
+
+error =  numMA + numMB
 
 
