@@ -8,5 +8,37 @@ load feat.mat
 %2: the images with the most regular shapes are easier to separate from
 %eachother; the face, paper, and raiffa should be easily distinguishable.
 
+%% Part 3
+%{
 [f2means, f2covs] = getmeansandcovs(f2);
-f2covs(1, :, :)
+[f8means, f8covs] = getmeansandcovs(f8);
+[f32means, f32covs] = getmeansandcovs(f32);
+
+truef2tclasses = f2t(3,:);
+truef8tclasses = f8t(3,:);
+truef32tclasses = f32t(3,:);
+est_f2tclasses = getclassifications(f2t,f2means,f2covs);
+est_f8tclasses = getclassifications(f8t,f8means,f8covs);
+est_f32tclasses = getclassifications(f32t,f32means,f32covs);
+
+% UNSEMICOLON THESE TO GET THE CONF MATRIX VALUES
+c2 = confusionmat(truef2tclasses, est_f2tclasses);
+c8 = confusionmat(truef8tclasses, est_f8tclasses);
+c32 = confusionmat(truef32tclasses, est_f32tclasses);
+
+%% Part 4
+cimage = zeros(256,256);
+for i=1:256
+    for j=1:256
+        features = [ multf8(i,j,1)
+                     multf8(i,j,2) ];
+        cimage(i,j) = getmicdclass(features, f8means, f8covs);
+    end
+end
+figure(1)
+imagesc(cimage)
+%}
+%% Part 5
+K = 10;
+%easysoln = kmeans(f32(1:2,:)', K); %I'm assuming we can't do this though...
+k_means(f32, K)
