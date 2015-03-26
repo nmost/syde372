@@ -44,23 +44,23 @@ imagesc(multim)
 %K = 10;
 %easysoln = kmeans(f32(1:2,:)', K); %I'm assuming we can't do this though...
 %k_means(f32, K)
-k_points = zeros(2, 10);
-for i=1:10
+
+K = 10;
+k_points = zeros(2, K);
+prev_points = zeros(2, K);
+classes = zeros(1,length(f32));
+
+for i=1:K
     k_points(1:2, i) = f32(1:2,round(rand()*160));
 end
-classes = zeros(1,length(f32));
-for i=1:length(f32)
-    classes(1,i) = getmedclass(f32(1:2,i), k_points, 10);
-end
-prev_points = zeros(2, 10);
-timeout = 0;
-while (~isequal(prev_points, k_points) && timeout < 10000)
+
+while (~isequal(prev_points, k_points))
     prev_points = k_points;
-    counts = zeros(1, 10);
+    counts = zeros(1, K);
     for i=1:length(f32)
-        classes(1,i) = getmedclass(f32(1:2,i), k_points, 10);
+        classes(1,i) = getmedclass(f32(1:2,i), k_points, K);
     end
-    k_points = zeros(2, 10);
+    k_points = zeros(2, K);
     for i=1:length(classes)
         k_points(:, classes(i)) = k_points(:, classes(i)) + f32(1:2, i);
         counts(1, classes(i)) =  counts(1, classes(i)) + 1;
@@ -71,10 +71,9 @@ while (~isequal(prev_points, k_points) && timeout < 10000)
             k_points(:, i) = [0;0];
         end
     end
-    %timeout = timeout + 1;
 end
 
-plot_points = zeros(3, 10);
+plot_points = zeros(3, K);
 for i=1:length(k_points)
   plot_points(:, i) = [k_points(1,i); k_points(2,i); i];
 end
