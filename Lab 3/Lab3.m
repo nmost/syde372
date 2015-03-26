@@ -79,5 +79,5 @@ for i=1:length(k_points)
 end
 figure(3)
 plot(plot_points(1,:), plot_points(2,:), '.');
-aplot(f32, 'A', 'black');
+aplot(f32);
 
